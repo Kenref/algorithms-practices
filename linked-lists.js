@@ -4,131 +4,173 @@ class LinkedList {
 		this.tail = null;
 		this.length = 0;
 	}
+
+	printList() {
+		let node = this.head;
+		if (this.length === 0) {
+			console.log(null);
+		} else if (this.length === 1) {
+			console.log(`${node.value}`);
+		} else {
+			let str = `${node.value}`;
+			node = node.nextNode;
+			while (node !== null) {
+				str += ` --> ${node.value}`;
+				node = node.nextNode;
+			}
+			console.log(str);
+		}
+	}
+
+	append(value) {
+		let currentNode = new Node(value);
+		if (this.length === 0) {
+			this.head = currentNode;
+			this.tail = currentNode;
+		} else {
+			this.tail.nextNode = currentNode;
+			this.tail = currentNode;
+		}
+		this.length++;
+	}
+
+	prepend(value) {
+		let currentNode = new Node(value);
+		if (this.length === 0) {
+			this.head = currentNode;
+			this.tail = currentNode;
+		} else {
+			currentNode.nextNode = this.head;
+			this.head = currentNode;
+		}
+		this.length++;
+	}
+
+	size() {
+		return this.length;
+	}
+
+	getHead() {
+		if (this.length > 0) {
+			return this.head.value;
+		} else {
+			return null;
+		}
+	}
+
+	getTail() {
+		if (this.length === 0) {
+			return null;
+		} else {
+			return this.tail.value;
+		}
+	}
+
+	getAtIndex(index) {
+		let current = this.head;
+		if (index > this.length || index < 0) {
+			return null;
+		}
+		for (let i = 0; i < index; i++) {
+			current = current.nextNode;
+		}
+		return current.value;
+	}
+
+	pop() {
+		let current = this.head;
+		let returnValue;
+		if (this.length === 0) {
+			return null;
+		} else if (this.length === 1) {
+			returnValue = current.value;
+			this.head = null;
+			this.tail = null;
+			this.length--;
+			return returnValue;
+		} else {
+			for (let i = 0; i < this.length - 2; i++) {
+				current = current.nextNode;
+			}
+			returnValue = current.nextNode.value;
+			current.nextNode = null;
+			this.tail = current;
+			this.length--;
+			return returnValue;
+		}
+	}
+
+	contains(value) {
+		let current = this.head;
+		while (current !== null) {
+			if (current.value === value) return true;
+			current = current.nextNode;
+		}
+		return false;
+	}
+
+	find(value) {
+		let current = this.head;
+		let counter = 0;
+		while (current !== null) {
+			if (current.value === value) return counter;
+			current = current.nextNode;
+			counter++;
+		}
+		return null;
+	}
+
+	insertAt(value, index) {
+		let current = this.head;
+		let newNode = new Node(value);
+		if (this.length === 0) {
+			this.head = newNode;
+			this.tail = newNode;
+		} else if (index >= this.length) {
+			this.tail.nextNode = newNode;
+			this.tail = newNode;
+		} else if (index <= 0) {
+			newNode.nextNode = this.head;
+			this.head = newNode;
+		} else {
+			for (let i = 0; i < index - 1; i++) {
+				current = current.nextNode;
+			}
+			current.nextNode = newNode;
+			newNode.nextNode = current.nextNode.nextNode;
+		}
+		this.length++;
+	}
+
+	removeAt(index) {
+		if (this.length === 0 || index < 0 || index >= this.length) {
+			return null;
+		}
+		if (this.length === 1) {
+			this.head = null;
+			this.tail = null;
+			this.length = 0;
+		} else if (index === 0) {
+			this.head = this.head.nextNode;
+			this.length--;
+		} else {
+			let current = this.head;
+			for (let i = 0; i < index - 1; i++) {
+				current = current.nextNode;
+			}
+			current.nextNode = current.nextNode.nextNode;
+			if (index === this.length - 1) {
+				this.tail = current;
+			}
+			this.length--;
+		}
+	}
+}
+class Node {
+	constructor(value = null, nextNode = null) {
+		this.value = value;
+		this.nextNode = nextNode;
+	}
 }
 
-// class List {
-// 	constructor() {
-// 		this.head = null;
-// 		this.tail = null;
-// 		this.length = 0;
-// 	}
-// 	append(value) {
-// 		const newNode = new Node(value, null);
-// 		if (this.length === 0) {
-// 			this.head = newNode;
-// 			this.tail = newNode;
-// 		} else {
-// 			this.tail.nextNode = newNode;
-// 			this.tail = newNode;
-// 		}
-// 		this.length++;
-// 	}
-
-// 	prepend(value) {
-// 		const newNode = new Node(value, this.head);
-// 		if (this.length === 0) this.tail = newNode;
-// 		this.length++;
-// 		this.head = newNode;
-// 	}
-
-// 	getSize() {
-// 		return this.length;
-// 	}
-
-// 	getHead() {
-// 		return this.head;
-// 	}
-
-// 	getTail() {
-// 		let node = this.head;
-// 		if (node === null) return null;
-// 		while (node.nextNode !== null) {
-// 			node = node.nextNode;
-// 		}
-// 		return node.value;
-// 	}
-
-// 	atIndex(index) {
-// 		let node = this.head;
-// 		for (let i = 0; i < index; i++) {
-// 			node = node.nextNode;
-// 		}
-// 		return node.value;
-// 	}
-
-// 	pop() {
-// 		if (this.length === 0) {
-// 			return null;
-// 		} else if (this.length === 1) {
-// 			this.head = null;
-// 			this.tail = null;
-// 			this.length--;
-// 		} else {
-// 			let node = this.head;
-// 			for (let i = 0; i < this.length - 2; i++) {
-// 				node = node.nextNode;
-// 			}
-// 			this.tail = node;
-// 			node.nextNode = null;
-// 			this.length--;
-// 		}
-// 	}
-
-// 	contains(value) {
-// 		let node = this.head;
-// 		for (let i = 0; i < this.length; i++) {
-// 			if (node.value === value) return true;
-// 			node = node.nextNode;
-// 		}
-// 		return false;
-// 	}
-
-// 	find(value) {
-// 		let node = this.head;
-// 		let counter = 0;
-// 		while (node.value !== null) {
-// 			if (node.value === value) return counter;
-// 			node = node.nextNode;
-// 			counter++;
-// 		}
-// 		return null;
-// 	}
-
-// 	insertAt(value, index) {
-// 		let node = this.head;
-// 		for (let i = 0; i < index - 1; i++) {
-// 			node = node.nextNode;
-// 		}
-// 		node.nextNode = new Node(value, node.nextNode);
-// 		// node.value = value;
-// 		this.length++;
-// 	}
-
-// 	removeAt(index) {
-// 		let node = this.head;
-// 		for (let i = 0; i < index - 1; i++) {
-// 			node = node.nextNode;
-// 		}
-// 		node.nextNode = node.nextNode.nextNode;
-// 		this.length--;
-// 	}
-
-// 	printList() {
-// 		let node = this.head;
-// 		let result = "";
-// 		while (node !== null) {
-// 			result += `--> ${node.value} `;
-// 			node = node.nextNode;
-// 		}
-// 		console.log(result);
-// 	}
-// }
-
-// class Node {
-// 	constructor(value, nextNode) {
-// 		this.value = value;
-// 		this.nextNode = nextNode;
-// 	}
-// }
-
-(module.exports = LinkedList), Node;
+module.exports = { LinkedList, Node };

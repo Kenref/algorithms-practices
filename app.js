@@ -1,15 +1,10 @@
-const List = require("./linked-lists");
+const { LinkedList } = require("./linked-lists");
+const { DoublyLinkedList } = require("./doubly-linked-lists");
 
-// const ll = new List();
-// console.log(ll.getHead());
-// ll.append(10);
-// ll.append(20);
-// ll.append(30);
-// ll.append(50);
-// ll.append(60);
-// ll.printList();
-// console.log(ll.length);
-// ll.insertAt(40, 3);
-// ll.printList();
-// ll.removeAt(3);
-// ll.printList();
+const dll = new DoublyLinkedList();
+dll.append(10);
+// dll.append(20);
+dll.append(30);
+dll.remove(20);
+dll.printList();
+console.log(dll.length);
