@@ -91,8 +91,8 @@ describe("DoublyLinkedList", () => {
 	});
 
 	test("handles inserting at an out-of-bounds index", () => {
-		expect(() => dll.insertAt(10, 1)).toThrow();
+		expect(dll.insertAt(10, 1)).toBeNull();
 		dll.append(20);
-		expect(() => dll.insertAt(30, 2)).toThrow();
+		expect(dll.insertAt(30, 2)).toBeNull();
 	});
 });
